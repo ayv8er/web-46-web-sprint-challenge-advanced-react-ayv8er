@@ -1,10 +1,24 @@
 import React from "react";
-import MutationObserver from 'mutationobserver-shim';
+import MutationObserver from "mutationobserver-shim";
 import { render } from "@testing-library/react";
 import CheckoutForm from "./CheckoutForm";
 
 // Write up the two tests here and make sure they are testing what the title shows
 
-test("renders without errors", () => {});
+test("renders without errors", () => {
+  render(<CheckoutForm />);
+});
 
-test("shows success message on submit with form details", () => {});
+test("shows success message on submit with form details", async () => {
+  render(<CheckoutForm />);
+
+  const firstNameInput = screen.getByDisplayValue(values.firstName);
+  console.log(firstNameInput);
+
+  userEvent.type(firstNameInput, "Richard");
+
+  await waitFor(() => {
+    const firstName = screen.queryByTestId("successMessage");
+    expect(firstName).toBeInTheDocument();
+  });
+});
